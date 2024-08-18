@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Support Platform for Dementia Caregivers</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        :root {
+            --onyx: #393d3f;
+            --white: #fdfdff;
+            --silver: #c6c5b9;
+            --blue-munsell: #62929e;
+            --paynes-gray: #546a7b;
+            --black: #000000;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.1em;
+            margin: 0;
+            padding: 0;
+            background-color: var(--silver);
+            color: var(--black);
+        }
+
+        header {
+            background-color: var(--white);
+            color: var(--onyx);
+            padding: 20px 0;
+            text-align: center;
+            font-size: 2.2em;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: var(--paynes-gray);
+            padding: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            display: block;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .section {
+            display: none;
+            background-color: var(--white);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section:target {
+            display: block;
+        }
+
+        h1, h2 {
+            color: var(--onyx);
+        }
+
+        h2 {
+            font-size: 2em;
+        }
+
+        h3 {
+            color: var(--blue-munsell);
+            font-size: 1.7em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 30%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .calendar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .calendar div {
+            width: 48%;
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0 auto;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: var(--blue-munsell);
+            color: var(--white);
+        }
+
+        .calendar-btn, .search-btn, .sort-btn {
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: var(--paynes-gray);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .calendar-btn:hover, .search-btn:hover, .sort-btn:hover {
+            background-color: var(--onyx);
+        }
+
+        .medication-form input, .medication-form select, .resource-search input, .resource-sort select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .medication-list, .resource-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .medication-list li, .resource-list li {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #e9f5ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 5px;
+        }
+
+        .calendar td:hover {
+            cursor: pointer;
+            background-color: #e0e0e0;
+        }
+
+        .banner {
+            width: 100%;
+            height: 80px;
+            background-color: var(--blue-munsell);
+            color: var(--white);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            background-color: var(--white);
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .popup.active {
+            display: block;
+        }
+
+        .home-section {
+            background-color: var(--silver);
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .home-section a {
+            color: var(--onyx);
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .home-section p {
+            font-size: 1em;
+            color: var(--onyx);
+        }
+
+        .home-section ul {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .home-section li {
+            width: 30%;
+            margin-bottom: 20px;
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            list-style: none;
+        }
+
+        .home-section li a {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 1024px) {
+            .card, .calendar div, .home-section li {
+                width: 48%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card, .calendar div, .home-section li {
+                width: 100%;
+            }
+
+            nav {
+                flex-direction: column;
+            }
+
+            nav a {
+                padding: 10px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                font-size: 1.5em;
+            }
+
+            .banner {
+                font-size: 1.2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            h3 {
+                font-size: 1.2em;
+            }
+
+            .calendar-btn, .search-btn, .sort-btn {
+                margin: 10px;
+                padding: 10px;
+                font-size: 0.9em;
+            }
+
+            .textarea {
+                padding: 8px;
+                font-size: 0.9em;
+            }
+
+            .medication-form input, .medication-form select, .resource-search input, .resource-sort select {
+                padding: 8px;
+                font-size: 0.9em;
+            }
+
+            .calendar {
+                flex-direction: column;
+            }
+
+            .calendar div {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+        table.monthly-calendar {
+            table-layout: fixed;
+        }
+
+        th, td {
+            width: 14.28%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Digital Support Platform for Dementia Caregivers</h1>
+    </header>
+    <div class="banner">
+        Enhance Caregiver Well-being and Patient Outcomes
+    </div>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#dashboard">Caregiver Dashboard</a>
+        <a href="#tracker">Symptom Tracker</a>
+        <a href="#planner">Activity Planner</a>
+        <a href="#reminder">Medication Reminder</a>
+        <a href="#library">Resource Library</a>
+        <a href="#forum">Community Forum</a>
+    </nav>
+
+    <div id="home" class="section home-section">
+        <div class="container">
+            <h2>Welcome to the Digital Support Platform for Dementia Caregivers</h2>
+            <p>This platform is designed to enhance caregiver well-being and patient outcomes by offering a centralized hub for managing caregiving tasks, accessing resources, and connecting with peers.</p>
+            <ul>
+                <li>
+                    <a href="#dashboard">Caregiver Dashboard</a>
+                    <p>A centralized hub for managing caregiving tasks, accessing resources, and connecting with peers. The dashboard provides an overview of daily activities, reminders, and important updates, helping caregivers stay organized and informed.</p>
+                </li>
+                <li>
+                    <a href="#tracker">Symptom Tracker</a>
+                    <p>Tools for monitoring and recording patient symptoms and health status. The symptom tracker allows caregivers to log changes in behavior, track the progression of dementia, and share information with healthcare providers for better care coordination.</p>
+                </li>
+                <li>
+                    <a href="#planner">Activity Planner</a>
+                    <p>Customizable plans for engaging patients in meaningful activities. The activity planner includes a variety of activities tailored to the interests and abilities of individuals with dementia, promoting cognitive stimulation and social interaction.</p>
+                </li>
+                <li>
+                    <a href="#reminder">Medication Reminder</a>
+                    <p>Alerts and notifications for medication administration. The medication reminder ensures that caregivers administer medications on time, reducing the risk of missed doses and medication errors.</p>
+                </li>
+                <li>
+                    <a href="#library">Resource Library</a>
+                    <p>Comprehensive educational materials and expert advice on dementia care. The resource library provides caregivers with access to articles, videos, and guides on topics such as symptom management, communication strategies, and self-care.</p>
+                </li>
+                <li>
+                    <a href="#forum">Community Forum</a>
+                    <p>Platforms for peer support and knowledge sharing. The community forum allows caregivers to connect with others facing similar challenges, exchange advice, and offer emotional support.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="dashboard" class="section">
+        <div class="container">
+            <h2>Caregiver Dashboard</h2>
+            <p>A centralized hub for managing caregiving tasks, accessing resources, and connecting with peers. The dashboard provides an overview of daily activities, reminders, and important updates, helping caregivers stay organized and informed.</p>
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                <div class="card">
+                    <h2>Daily Activities</h2>
+                    <p class="activity">Morning: Assist with breakfast and medication</p>
+                    <p class="activity">Afternoon: Engage in cognitive activities</p>
+                    <p class="activity">Evening: Prepare dinner and review daily notes</p>
+                    <input type="text" id="new-activity" placeholder="Add new activity" class="textarea">
+                    <button class="calendar-btn" onclick="addActivity()">Add Activity</button>
+                </div>
+                <div class="card">
+                    <h2>Reminders</h2>
+                    <p class="reminder">9:00 AM - Administer morning medication</p>
+                    <p class="reminder">2:00 PM - Physical therapy session</p>
+                    <p class="reminder">8:00 PM - Evening medication</p>
+                    <input type="text" id="new-reminder" placeholder="Add new reminder" class="textarea">
+                    <button class="calendar-btn" onclick="addReminder()">Add Reminder</button>
+                </div>
+                <div class="card">
+                    <h2>Important Updates</h2>
+                    <p class="update">New article on dementia care available in the Resource Library</p>
+                    <p class="update">Upcoming caregiver support group meeting on Friday</p>
+                    <p class="update">Updated symptom tracking tool with new features</p>
+                    <input type="text" id="new-update" placeholder="Add new update" class="textarea">
+                    <button class="calendar-btn" onclick="addUpdate()">Add Update</button>
+                </div>
+            </div>
+            <div style="clear: both;"></div>
+            <div class="calendar">
+                <div>
+                    <h2>Weekly Calendar</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Monday</th>
+                                <th>Tuesday</th>
+                                <th>Wednesday</th>
+                                <th>Thursday</th>
+                                <th>Friday</th>
+                                <th>Saturday</th>
+                                <th>Sunday</th>
+                            </tr>
+                        </thead>
+                        <tbody id="week-body">
+                            <!-- Weekly calendar will be injected here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h2>Daily Calendar</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Activity</th>
+                            </tr>
+                        </thead>
+                        <tbody id="day-body">
+                            <!-- Daily calendar will be injected here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="calendar">
+                <div>
+                    <h2>Monthly Calendar</h2>
+                    <table class="monthly-calendar">
+                        <thead>
+                            <tr>
+                                <th>Sun</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
+                            </tr>
+                        </thead>
+                        <tbody id="month-body">
+                            <!-- Monthly calendar will be injected here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="tracker" class="section">
+    <div class="container">
+        <h2>Symptom Tracker</h2>
+        <p>Tools for monitoring and recording patient symptoms and health status. The symptom tracker allows caregivers to log changes in behavior, track the progression of dementia, and share information with healthcare providers for better care coordination.</p>
+        
+        <div class="tracker-section">
+            <h3>Track Symptoms</h3>
+            <label for="symptom">Symptom:</label>
+            <input type="text" id="symptom" name="symptom" class="textarea">
+            <label for="notes">Notes:</label>
+            <textarea id="notes" name="notes" class="textarea"></textarea>
+            <label for="symptom-date">Date:</label>
+            <input type="date" id="symptom-date" name="symptom-date" class="textarea">
+            <label for="symptom-time">Time:</label>
+            <input type="time" id="symptom-time" name="symptom-time" class="textarea">
+            <button class="calendar-btn" onclick="saveSymptom()">Save</button>
+        </div>
+        
+        <h3>Logged Symptoms</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Symptom</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody id="symptom-list">
+                <!-- Sample symptoms will be injected here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+    <div id="planner" class="section">
+        <div class="container">
+            <h2>Activity Planner</h2>
+            <p>Customizable plans for engaging patients in meaningful activities. The activity planner includes a variety of activities tailored to the interests and abilities of individuals with dementia, promoting cognitive stimulation and social interaction.</p>
+            <div class="calendar">
+                <h2>Daily Planner</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody id="day-body-planner">
+                        <!-- Daily planner will be injected here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="calendar">
+                <h2>Weekly Planner</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
+                            <th>Sunday</th>
+                        </tr>
+                    </thead>
+                    <tbody id="week-body-planner">
+                        <!-- Weekly planner will be injected here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="calendar">
+                <h2>Monthly Calendar</h2>
+                <table class="monthly-calendar">
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="month-body-planner">
+                        <!-- Monthly calendar will be injected here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="reminder" class="section">
+        <div class="container">
+            <h2>Medication Reminder</h2>
+            <p>Alerts and notifications for medication administration. The medication reminder ensures that caregivers administer medications on time, reducing the risk of missed doses and medication errors.</p>
+            <div class="medication-form">
+                <label for="medication-name">Medication Name:</label>
+                <input type="text" id="medication-name" name="medication-name" placeholder="Enter medication name">
+                <label for="medication-time">Time:</label>
+                <input type="time" id="medication-time" name="medication-time">
+                <label for="medication-date">Date:</label>
+                <input type="date" id="medication-date" name="medication-date">
+                <button class="calendar-btn" onclick="addMedicationReminder()">Add Reminder</button>
+            </div>
+            <h3>Upcoming Reminders</h3>
+            <ul class="medication-list" id="medication-list">
+                <!-- Medication reminders will be injected here by JavaScript -->
+            </ul>
+            <h3>Completed Reminders</h3>
+            <ul class="medication-list" id="completed-medication-list">
+                <!-- Completed medication reminders will be injected here by JavaScript -->
+            </ul>
+        </div>
+    </div>
+    <div id="library" class="section">
+    <div class="container">
+        <h2>Resource Library</h2>
+        <div class="resource-search">
+            <input type="text" id="search-query" placeholder="Search resources...">
+            <button class="search-btn" onclick="searchResources()">Search</button>
+        </div>
+        <div class="resource-sort">
+            <label for="sort-option">Sort by:</label>
+            <select id="sort-option" name="sort-option">
+                <option value="date">Date</option>
+                <option value="relevance">Relevance</option>
+                <option value="explanation">Explanation</option>
+                <option value="instruction">Instruction</option>
+            </select>
+            <button class="sort-btn" onclick="sortResources()">Sort</button>
+        </div>
+        <h3>Resource List</h3>
+        <ul class="resource-list" id="resource-list">
+            <!-- Resource 1 -->
+            <li>
+                <h4><a href="https://www.alz.org/alzheimers-dementia/what-is-dementia" target="_blank">What Is Dementia?</a></h4>
+                <p>Date: 2024-01-15</p>
+                <p>A comprehensive guide from the Alzheimer's Association explaining what dementia is, its types, symptoms, and how it affects the brain.</p>
+            </li>
+            <!-- Resource 2 -->
+            <li>
+                <h4><a href="https://www.nia.nih.gov/health/what-dementia-symptoms-types-and-diagnosis" target="_blank">Symptoms and Types of Dementia</a></h4>
+                <p>Date: 2023-12-12</p>
+                <p>National Institute on Aging provides detailed explanations of dementia symptoms, different types, and the diagnostic process.</p>
+            </li>
+            <!-- Resource 3 -->
+            <li>
+                <h4><a href="https://www.mayoclinic.org/diseases-conditions/dementia/symptoms-causes/syc-20352013" target="_blank">Dementia: Symptoms and Causes</a></h4>
+                <p>Date: 2024-02-01</p>
+                <p>An article by Mayo Clinic explaining the symptoms, causes, and risk factors associated with dementia.</p>
+            </li>
+            <!-- Resource 4 -->
+            <li>
+                <h4><a href="https://www.cdc.gov/aging/dementia/index.html" target="_blank">CDC: Dementia Resources</a></h4>
+                <p>Date: 2024-01-10</p>
+                <p>Resources provided by the CDC for understanding dementia, managing symptoms, and accessing support.</p>
+            </li>
+            <!-- Resource 5 -->
+            <li>
+                <h4><a href="https://www.who.int/news-room/fact-sheets/detail/dementia" target="_blank">WHO: Dementia Fact Sheet</a></h4>
+                <p>Date: 2023-11-25</p>
+                <p>A fact sheet by the World Health Organization offering an overview of dementia, its impact, and global efforts to manage the condition.</p>
+            </li>
+            <!-- Resource 6 -->
+            <li>
+                <h4><a href="https://www.helpguide.org/articles/alzheimers-dementia-aging/tips-for-dementia-caregivers.htm" target="_blank">Tips for Dementia Caregivers</a></h4>
+                <p>Date: 2023-10-15</p>
+                <p>HelpGuide's article offering practical tips and advice for caregivers managing the day-to-day challenges of dementia care.</p>
+            </li>
+            <!-- Resource 7 -->
+            <li>
+                <h4><a href="https://www.alzheimers.gov/life-with-dementia/caregiver-resources" target="_blank">Caregiver Resources</a></h4>
+                <p>Date: 2023-09-20</p>
+                <p>A government resource site dedicated to providing support and tools for caregivers of individuals with dementia.</p>
+            </li>
+            <!-- Resource 8 -->
+            <li>
+                <h4><a href="https://www.dementia.org.au/resources" target="_blank">Dementia Australia: Resources</a></h4>
+                <p>Date: 2023-12-05</p>
+                <p>Comprehensive resources for those affected by dementia, including support services and educational materials.</p>
+            </li>
+            <!-- Resource 9 -->
+            <li>
+                <h4><a href="https://www.alzheimers.org.uk/about-dementia/types-dementia" target="_blank">Types of Dementia</a></h4>
+                <p>Date: 2024-01-05</p>
+                <p>An Alzheimer's Society article explaining different types of dementia, including Alzheimer's disease, Lewy body dementia, and more.</p>
+            </li>
+            <!-- Resource 10 -->
+            <li>
+                <h4><a href="https://www.dementiafriends.org.uk/WEBArticle?page=what-is-dementia#.YbKIFpPMJaQ" target="_blank">Dementia Friends: Understanding Dementia</a></h4>
+                <p>Date: 2023-11-15</p>
+                <p>An initiative by Alzheimer's Society aimed at raising awareness and providing a basic understanding of dementia.</p>
+            </li>
+            <!-- Resource 11 -->
+            <li>
+                <h4><a href="https://www.nhs.uk/conditions/dementia/daily-living/" target="_blank">Daily Living with Dementia</a></h4>
+                <p>Date: 2023-12-01</p>
+                <p>NHS guide on managing the day-to-day living of a person with dementia, including tips on safety, communication, and self-care.</p>
+            </li>
+            <!-- Resource 12 -->
+            <li>
+                <h4><a href="https://www.care.com/c/stories/16818/what-is-dementia/" target="_blank">What Is Dementia? An Overview</a></h4>
+                <p>Date: 2023-09-30</p>
+                <p>An overview provided by Care.com explaining what dementia is, the signs to look out for, and how to seek help.</p>
+            </li>
+            <!-- Resource 13 -->
+            <li>
+                <h4><a href="https://www.healthline.com/health/dementia/treatment" target="_blank">Dementia Treatment Options</a></h4>
+                <p>Date: 2023-10-20</p>
+                <p>Healthline's guide to the available treatment options for dementia, including medications, therapy, and lifestyle changes.</p>
+            </li>
+            <!-- Resource 14 -->
+            <li>
+                <h4><a href="https://www.nia.nih.gov/health/caring-someone-dementia" target="_blank">Caring for Someone with Dementia</a></h4>
+                <p>Date: 2023-12-15</p>
+                <p>National Institute on Aging's advice on caring for someone with dementia, including tips on communication, managing symptoms, and self-care for caregivers.</p>
+            </li>
+            <!-- Resource 15 -->
+            <li>
+                <h4><a href="https://www.nhs.uk/conditions/dementia/prevention/" target="_blank">Preventing Dementia</a></h4>
+                <p>Date: 2023-11-10</p>
+                <p>NHS article discussing ways to reduce the risk of developing dementia through lifestyle changes and early intervention.</p>
+            </li>
+            <!-- Resource 16 -->
+            <li>
+                <h4><a href="https://www.alzinfo.org/articles/prevention/" target="_blank">Dementia Prevention Tips</a></h4>
+                <p>Date: 2023-10-01</p>
+                <p>The Fisher Center for Alzheimer's Research Foundation provides tips on how to potentially prevent dementia through diet, exercise, and cognitive engagement.</p>
+            </li>
+            <!-- Resource 17 -->
+            <li>
+                <h4><a href="https://www.verywellhealth.com/living-with-dementia-5084114" target="_blank">Living with Dementia: A Guide</a></h4>
+                <p>Date: 2023-08-25</p>
+                <p>Verywell Health's guide to living with dementia, offering practical advice for patients and caregivers on managing daily life.</p>
+            </li>
+            <!-- Resource 18 -->
+            <li>
+                <h4><a href="https://www.dementia.org.au/national/support" target="_blank">Support for Dementia Patients and Caregivers</a></h4>
+                <p>Date: 2024-01-01</p>
+                <p>Information on support services available for dementia patients and their caregivers, provided by Dementia Australia.</p>
+            </li>
+            <!-- Resource 19 -->
+            <li>
+                <h4><a href="https://www.aplaceformom.com/planning-and-advice/articles/alzheimers-caregiver-tips" target="_blank">Alzheimer's Caregiver Tips</a></h4>
+                <p>Date: 2023-09-15</p>
+                <p>Tips from A Place for Mom for caregivers managing the needs of individuals with Alzheimer's disease and other dementias.</p>
+            </li>
+            <!-- Resource 20 -->
+            <li>
+                <h4><a href="https://www.alz.org/help-support/resources/kids-teens" target="_blank">Resources for Kids and Teens</a></h4>
+                <p>Date: 2023-11-05</p>
+                <p>Alzheimer's Association's resources for young people who are coping with a loved one living with dementia.</p>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+    <div id="forum" class="section">
+    <div class="container">
+        <h2>Community Forum</h2>
+        <p>Platforms for peer support and knowledge sharing. The community forum allows caregivers to connect with others facing similar challenges, exchange advice, and offer emotional support.</p>
+        <a href="https://example.com/forum" target="_blank" class="calendar-btn">Go to Forum</a>
+
+        <h3>Submit a Topic or Question</h3>
+        <form id="forum-form" onsubmit="submitForumForm(event)">
+            <label for="forum-name">Your Name:</label>
+            <input type="text" id="forum-name" name="forum-name" placeholder="Enter your name" class="textarea" required>
+            
+            <label for="forum-email">Your Email:</label>
+            <input type="email" id="forum-email" name="forum-email" placeholder="Enter your email" class="textarea" required>
+            
+            <label for="forum-topic">Topic or Question:</label>
+            <textarea id="forum-topic" name="forum-topic" placeholder="Enter your topic or question" class="textarea" required></textarea>
+            
+            <button type="submit" class="calendar-btn">Submit</button>
+        </form>
+        <div id="forum-response" style="display:none; margin-top: 10px;"></div>
+    </div>
+</div>
+    <div id="popup" class="popup">
+        <h3>Calendar Event Details</h3>
+        <p id="popup-content"></p>
+        <label for="event">Event:</label>
+        <input type="text" id="event" class="textarea">
+        <label for="event-time">Time:</label>
+        <input type="time" id="event-time" class="textarea">
+        <label for="event-reminder">Reminder:</label>
+        <input type="text" id="event-reminder" class="textarea">
+        <button class="calendar-btn" onclick="saveEvent()">Save</button>
+        <button class="calendar-btn" onclick="closePopup()">Close</button>
+    </div>
+    <script>
+        function addActivity() {
+            const newActivity = document.getElementById('new-activity').value;
+            if (newActivity) {
+                const activityList = document.querySelectorAll('.activity');
+                const newParagraph = document.createElement('p');
+                newParagraph.className = 'activity';
+                newParagraph.textContent = newActivity;
+                activityList[activityList.length - 1].after(newParagraph);
+                document.getElementById('new-activity').value = '';
+            }
+        }
+
+        function addReminder() {
+            const newReminder = document.getElementById('new-reminder').value;
+            if (newReminder) {
+                const reminderList = document.querySelectorAll('.reminder');
+                const newParagraph = document.createElement('p');
+                newParagraph.className = 'reminder';
+                newParagraph.textContent = newReminder;
+                reminderList[reminderList.length - 1].after(newParagraph);
+                document.getElementById('new-reminder').value = '';
+            }
+        }
+
+        function addUpdate() {
+            const newUpdate = document.getElementById('new-update').value;
+            if (newUpdate) {
+                const updateList = document.querySelectorAll('.update');
+                const newParagraph = document.createElement('p');
+                newParagraph.className = 'update';
+                newParagraph.textContent = newUpdate;
+                updateList[updateList.length - 1].after(newParagraph);
+                document.getElementById('new-update').value = '';
+            }
+        }
+
+        function saveSymptom() {
+            const symptom = document.getElementById('symptom').value;
+            const notes = document.getElementById('notes').value;
+            const date = document.getElementById('symptom-date').value;
+            const time = document.getElementById('symptom-time').value;
+            alert(`Symptom: ${symptom}\nNotes: ${notes}\nDate: ${date}\nTime: ${time}`);
+            // Save the symptom, notes, date, and time to localStorage or a server
+        }
+
+        function addMedicationReminder() {
+            const medicationName = document.getElementById('medication-name').value;
+            const medicationTime = document.getElementById('medication-time').value;
+            const medicationDate = document.getElementById('medication-date').value;
+            const medicationList = document.getElementById('medication-list');
+
+            if (medicationName && medicationTime && medicationDate) {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${medicationName} at ${medicationTime} on ${medicationDate}`;
+                medicationList.appendChild(listItem);
+                alert(`Medication Reminder Set: ${medicationName} at ${medicationTime} on ${medicationDate}`);
+                // Save the medication reminder to localStorage or a server
+            } else {
+                alert('Please enter medication name, time, and date.');
+            }
+        }
+
+        function searchResources() {
+            const query = document.getElementById('search-query').value;
+            alert(`Search Query: ${query}`);
+            // Implement search functionality
+        }
+
+        function sortResources() {
+            const sortOption = document.getElementById('sort-option').value;
+            alert(`Sort by: ${sortOption}`);
+            // Implement sort functionality
+        }
+
+        function showPopup(content) {
+            const popup = document.getElementById('popup');
+            const popupContent = document.getElementById('popup-content');
+            popupContent.textContent = content;
+            popup.classList.add('active');
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('popup');
+            popup.classList.remove('active');
+        }
+
+        function saveEvent() {
+            const event = document.getElementById('event').value;
+            const time = document.getElementById('event-time').value;
+            const reminder = document.getElementById('event-reminder').value;
+            alert(`Event: ${event}\nTime: ${time}\nReminder: ${reminder}`);
+            // Save the event details to localStorage or a server
+        }
+
+        // Generate the monthly calendar
+        function generateMonthlyCalendar(id) {
+            const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+            const firstDay = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getDay();
+            const monthBody = document.getElementById(id);
+            let html = '';
+            let day = 1;
+
+            for (let i = 0; i < 6; i++) {
+                html += '<tr>';
+                for (let j = 0; j < 7; j++) {
+                    if (i === 0 && j < firstDay) {
+                        html += '<td></td>';
+                    } else if (day > daysInMonth) {
+                        html += '<td></td>';
+                    } else {
+                        html += `<td onclick="showPopup('Details for ${day}')">${day}</td>`;
+                        day++;
+                    }
+                }
+                html += '</tr>';
+            }
+            monthBody.innerHTML = html;
+        }
+
+        // Generate the weekly calendar
+        function generateWeeklyCalendar(id) {
+            const times = ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'];
+            const weekBody = document.getElementById(id);
+            let html = '';
+
+            times.forEach(time => {
+                html += '<tr>';
+                html += `<td>${time}</td>`;
+                for (let i = 0; i < 7; i++) {
+                    html += `<td onclick="showPopup('Details for ${time} on day ${i + 1}')"></td>`;
+                }
+                html += '</tr>';
+            });
+            weekBody.innerHTML = html;
+        }
+
+        // Generate the daily calendar
+        function generateDailyCalendar(id) {
+            const times = ['6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM'];
+            const dayBody = document.getElementById(id);
+            let html = '';
+
+            times.forEach(time => {
+                html += '<tr>';
+                html += `<td>${time}</td>`;
+                html += `<td onclick="showPopup('Details for ${time}')"></td>`;
+                html += '</tr>';
+            });
+            dayBody.innerHTML = html;
+        }
+
+        // Initialize calendars
+        if (document.getElementById('month-body-planner')) {
+            generateMonthlyCalendar('month-body-planner');
+        }
+        if (document.getElementById('week-body')) {
+            generateWeeklyCalendar('week-body');
+        }
+        if (document.getElementById('day-body')) {
+            generateDailyCalendar('day-body');
+        }
+        if (document.getElementById('week-body-tracker')) {
+            generateWeeklyCalendar('week-body-tracker');
+        }
+        if (document.getElementById('week-body-planner')) {
+            generateWeeklyCalendar('week-body-planner');
+        }
+        if (document.getElementById('day-body-planner')) {
+            generateDailyCalendar('day-body-planner');
+        }
+        if (document.getElementById('month-body')) {
+            generateMonthlyCalendar('month-body');
+        }
+
+        // Redirect to home section by default
+        window.addEventListener('DOMContentLoaded', (event) => {
+            if (!window.location.hash) {
+                window.location.hash = '#home';
+            }
+        });
+
+
+
+// Add sample symptoms when the page loads
+window.addEventListener('DOMContentLoaded', (event) => {
+    addSampleSymptoms();
+});
+
+function addSamplePlannerActivities() {
+    // Daily Planner Activities
+    const dailyPlanner = [
+        { time: '8:00 AM', activity: 'Morning Exercise' },
+        { time: '10:00 AM', activity: 'Art Therapy' },
+        { time: '12:00 PM', activity: 'Lunch and Medication' },
+        { time: '3:00 PM', activity: 'Afternoon Walk' },
+        { time: '7:00 PM', activity: 'Reading Session' }
+    ];
+
+    const dailyBodyPlanner = document.getElementById('day-body-planner');
+    let dailyHtmlPlanner = '';
+    dailyPlanner.forEach(item => {
+        dailyHtmlPlanner += `<tr><td>${item.time}</td><td>${item.activity}</td></tr>`;
+    });
+    dailyBodyPlanner.innerHTML = dailyHtmlPlanner;
+
+    // Monthly Planner Activities
+    const monthlyPlannerActivities = {
+        2: 'Community Event',
+        8: 'Art Therapy Workshop',
+        14: 'Family Picnic',
+        22: 'Group Therapy Session',
+        28: 'Music and Dance Night'
+    };
+
+    const monthBodyPlanner = document.getElementById('month-body-planner');
+    const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+    const firstDayPlanner = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getDay();
+    let monthlyHtmlPlanner = '';
+    let dayPlanner = 1;
+
+    for (let i = 0; i < 6; i++) {
+        monthlyHtmlPlanner += '<tr>';
+        for (let j = 0; j < 7; j++) {
+            if (i === 0 && j < firstDayPlanner) {
+                monthlyHtmlPlanner += '<td></td>';
+            } else if (dayPlanner > daysInMonth) {
+                monthlyHtmlPlanner += '<td></td>';
+            } else {
+                const activity = monthlyPlannerActivities[dayPlanner] || '';
+                monthlyHtmlPlanner += `<td onclick="showPopup('Details for ${dayPlanner}: ${activity}')">${dayPlanner}<br>${activity}</td>`;
+                dayPlanner++;
+            }
+        }
+        monthlyHtmlPlanner += '</tr>';
+    }
+    monthBodyPlanner.innerHTML = monthlyHtmlPlanner;
+}
+
+// Add sample activities when the page loads
+window.addEventListener('DOMContentLoaded', (event) => {
+    addSamplePlannerActivities();
+});
+
+function addSampleMedicationReminders() {
+    const medications = [
+        { name: 'Aspirin', time: '08:00 AM', date: '2024-02-05' },
+        { name: 'Vitamin D', time: '12:00 PM', date: '2024-02-05' },
+        { name: 'Blood Pressure Pill', time: '08:00 PM', date: '2024-02-05' }
+    ];
+
+    const medicationList = document.getElementById('medication-list');
+    let medicationHtml = '';
+    medications.forEach(med => {
+        medicationHtml += `<li>${med.name} at ${med.time} on ${med.date}</li>`;
+    });
+    medicationList.innerHTML = medicationHtml;
+}
+
+// Add sample medication reminders when the page loads
+window.addEventListener('DOMContentLoaded', (event) => {
+    addSampleMedicationReminders();
+});
+
+function addSampleSymptoms() {
+    const symptoms = [
+        { date: '2024-02-01', time: '09:00 AM', symptom: 'Forgetfulness', notes: 'Forgot recent conversations.' },
+        { date: '2024-02-02', time: '11:00 AM', symptom: 'Confusion', notes: 'Confused about the time of day.' },
+        { date: '2024-02-03', time: '02:00 PM', symptom: 'Mood Swings', notes: 'Sudden changes in mood and behavior.' }
+    ];
+
+    const symptomList = document.getElementById('symptom-list');
+    let symptomsHtml = '';
+
+    symptoms.forEach(item => {
+        symptomsHtml += `<tr><td>${item.date}</td><td>${item.time}</td><td>${item.symptom}</td><td>${item.notes}</td></tr>`;
+    });
+
+    symptomList.innerHTML = symptomsHtml;
+}
+
+function saveSymptom() {
+    const symptom = document.getElementById('symptom').value;
+    const notes = document.getElementById('notes').value;
+    const date = document.getElementById('symptom-date').value;
+    const time = document.getElementById('symptom-time').value;
+
+    if (symptom && notes && date && time) {
+        const newRow = `<tr><td>${date}</td><td>${time}</td><td>${symptom}</td><td>${notes}</td></tr>`;
+        document.getElementById('symptom-list').insertAdjacentHTML('beforeend', newRow);
+        
+        // Clear inputs after saving
+        document.getElementById('symptom').value = '';
+        document.getElementById('notes').value = '';
+        document.getElementById('symptom-date').value = '';
+        document.getElementById('symptom-time').value = '';
+    } else {
+        alert('Please fill in all fields before saving.');
+    }
+}
+
+// Add sample symptoms when the page loads
+window.addEventListener('DOMContentLoaded', (event) => {
+    addSampleSymptoms();
+});
+
+function addSampleDashboardEvents() {
+    // Sample events for the Daily Calendar
+    const dailyEvents = [
+        { time: '8:00 AM', event: 'Morning Medication' },
+        { time: '10:00 AM', event: 'Doctor\'s Appointment' },
+        { time: '12:00 PM', event: 'Lunch and Relaxation' },
+        { time: '3:00 PM', event: 'Physical Therapy' },
+        { time: '6:00 PM', event: 'Evening Walk' }
+    ];
+
+    const dailyBody = document.getElementById('day-body');
+    let dailyHtml = '';
+    dailyEvents.forEach(item => {
+        dailyHtml += `<tr><td>${item.time}</td><td>${item.event}</td></tr>`;
+    });
+    dailyBody.innerHTML = dailyHtml;
+
+    // Sample events for the Weekly Calendar
+    const weeklyEvents = {
+        Monday: ['8:00 AM - Medication', '10:00 AM - Doctor\'s Appointment'],
+        Tuesday: ['9:00 AM - Grocery Shopping', '2:00 PM - Visit the Park'],
+        Wednesday: ['10:00 AM - Family Visit', '4:00 PM - Exercise Session'],
+        Thursday: ['8:00 AM - Medication', '1:00 PM - Caregiver Support Group'],
+        Friday: ['9:00 AM - Breakfast with Friends', '3:00 PM - Rest and Relaxation'],
+        Saturday: ['10:00 AM - Volunteer Work', '7:00 PM - Movie Night'],
+        Sunday: ['11:00 AM - Church Service', '2:00 PM - Family Lunch']
+    };
+
+    const weekBody = document.getElementById('week-body');
+    const times = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'];
+    let weeklyHtml = '';
+
+    times.forEach(time => {
+        weeklyHtml += '<tr>';
+        weeklyHtml += `<td>${time}</td>`;
+        Object.keys(weeklyEvents).forEach(day => {
+            const event = weeklyEvents[day].find(e => e.startsWith(time)) || '';
+            weeklyHtml += `<td>${event}</td>`;
+        });
+        weeklyHtml += '</tr>';
+    });
+    weekBody.innerHTML = weeklyHtml;
+
+    // Sample events for the Monthly Calendar
+    const monthlyEvents = {
+        3: 'Caregiver Meeting',
+        7: 'Health Check-up',
+        14: 'Family Gathering',
+        21: 'Community Event',
+        28: 'Medication Refill'
+    };
+
+    const monthBody = document.getElementById('month-body');
+    const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+    const firstDay = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getDay();
+    let monthlyHtml = '';
+    let day = 1;
+
+    for (let i = 0; i < 6; i++) {
+        monthlyHtml += '<tr>';
+        for (let j = 0; j < 7; j++) {
+            if (i === 0 && j < firstDay) {
+                monthlyHtml += '<td></td>';
+            } else if (day > daysInMonth) {
+                monthlyHtml += '<td></td>';
+            } else {
+                const event = monthlyEvents[day] || '';
+                monthlyHtml += `<td>${day}<br>${event}</td>`;
+                day++;
+            }
+        }
+        monthlyHtml += '</tr>';
+    }
+    monthBody.innerHTML = monthlyHtml;
+}
+
+// Initialize calendars with sample events when the page loads
+window.addEventListener('DOMContentLoaded', (event) => {
+    addSampleDashboardEvents();
+});
+
+    </script>
+</body>
+</html>
